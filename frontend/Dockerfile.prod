@@ -10,7 +10,7 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --include=dev
 COPY . .
 RUN npm run build
 
