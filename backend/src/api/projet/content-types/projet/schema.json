@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projets",
+  "info": {
+    "singularName": "projet",
+    "pluralName": "projets",
+    "displayName": "Project"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "github_id": {
+      "type": "integer",
+      "unique": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "github_url": {
+      "type": "string"
+    },
+    "topics": {
+      "type": "json"
+    },
+    "creation_date": {
+      "type": "datetime"
+    },
+    "image_url": {
+      "type": "string"
+    }
+  }
+}

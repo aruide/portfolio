@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"d:\\\\dev\\\\dev react\\\\portfolio\\\\docker-compose.yml\":*)",
+      "Bash(\"d:/dev/dev react/portfolio/.env\")"
+    ]
+  }
+}

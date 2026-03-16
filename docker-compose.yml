@@ -1,0 +1,71 @@
+services:
+
+  # ─── Backend Strapi ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${STRAPI_PORT}:${STRAPI_PORT}"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - strapi_data:/app/.tmp
+    environment:
+      - HOST=${STRAPI_HOST}
+      - PORT=${STRAPI_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - APP_KEYS=${APP_KEYS}
+      - API_TOKEN_SALT=${API_TOKEN_SALT}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - TRANSFER_TOKEN_SALT=${TRANSFER_TOKEN_SALT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_CLIENT=${DATABASE_CLIENT}
+      - DATABASE_FILENAME=${DATABASE_FILENAME}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
+      - GITHUB_USERNAME=${GITHUB_USERNAME}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_PORTFOLIO_TOPIC=${GITHUB_PORTFOLIO_TOPIC}
+
+  # ─── Frontend Vite + React ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
+      - VITE_POLL=${VITE_POLL}
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_API_TOKEN=${VITE_API_TOKEN}
+    depends_on:
+      - backend
+
+  # ─── n8n Workflow Automation ───────────────────────────────────────────────
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    volumes:
+      - ./n8n/data:/home/node/.n8n
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - GENERIC_TIMEZONE=Europe/Paris
+      - N8N_SECURE_COOKIE=false
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - GITHUB_USERNAME=${GITHUB_USERNAME}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_PORTFOLIO_TOPIC=${GITHUB_PORTFOLIO_TOPIC}
+      - STRAPI_URL=http://backend:${STRAPI_PORT}
+      - STRAPI_TOKEN=${N8N_STRAPI_TOKEN}
+    depends_on:
+      - backend
+
+volumes:
+  strapi_data:

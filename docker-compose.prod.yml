@@ -1,0 +1,70 @@
+services:
+
+  # ─── Backend Strapi ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: unless-stopped
+    ports:
+      - "1337:1337"
+    volumes:
+      - strapi_data:/app/.tmp
+      - strapi_uploads:/app/public/uploads
+    environment:
+      - HOST=0.0.0.0
+      - PORT=1337
+      - NODE_ENV=production
+      - APP_KEYS=${APP_KEYS}
+      - API_TOKEN_SALT=${API_TOKEN_SALT}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - TRANSFER_TOKEN_SALT=${TRANSFER_TOKEN_SALT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_CLIENT=${DATABASE_CLIENT:-sqlite}
+      - DATABASE_FILENAME=${DATABASE_FILENAME:-.tmp/data.db}
+      - GITHUB_USERNAME=${GITHUB_USERNAME}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_PORTFOLIO_TOPIC=${GITHUB_PORTFOLIO_TOPIC:-portfolio}
+
+  # ─── Frontend nginx (build statique) ───────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        # URL publique du backend — vue depuis le navigateur de l'utilisateur
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_API_TOKEN: ${VITE_API_TOKEN}
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  # ─── n8n Workflow Automation ───────────────────────────────────────────────
+  n8n:
+    image: n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL}
+      - GENERIC_TIMEZONE=Europe/Paris
+      - N8N_SECURE_COOKIE=false
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - GITHUB_USERNAME=${GITHUB_USERNAME}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_PORTFOLIO_TOPIC=${GITHUB_PORTFOLIO_TOPIC:-portfolio}
+      # En prod n8n communique avec le backend via le réseau Docker interne
+      - STRAPI_URL=http://backend:1337
+      - STRAPI_TOKEN=${N8N_STRAPI_TOKEN}
+    depends_on:
+      - backend
+
+volumes:
+  strapi_data:
+  strapi_uploads:
+  n8n_data:

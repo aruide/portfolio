@@ -1,0 +1,70 @@
+{
+  "kind": "singleType",
+  "collectionName": "aboutpages",
+  "info": {
+    "singularName": "aboutpage",
+    "pluralName": "aboutpages",
+    "displayName": "Aboutpage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "first_description": {
+      "type": "text"
+    },
+    "second_description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "values_description": {
+      "type": "text"
+    },
+    "first_title_values": {
+      "type": "string"
+    },
+    "first_library_logo_values": {
+      "type": "string"
+    },
+    "first_logo_values": {
+      "type": "string"
+    },
+    "first_description_values": {
+      "type": "text"
+    },
+    "second_title_values": {
+      "type": "string"
+    },
+    "second_library_logo_values": {
+      "type": "string"
+    },
+    "second_logo_values": {
+      "type": "string"
+    },
+    "second_description_values": {
+      "type": "text"
+    },
+    "third_title_values": {
+      "type": "string"
+    },
+    "third_library_logo_values": {
+      "type": "string"
+    },
+    "third_logo_values": {
+      "type": "string"
+    },
+    "third_description_values": {
+      "type": "text"
+    }
+  }
+}

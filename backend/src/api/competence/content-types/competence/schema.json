@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "competences",
+  "info": {
+    "singularName": "competence",
+    "pluralName": "competences",
+    "displayName": "Competence"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type_competence": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "library_icon": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "note": {
+      "type": "integer"
+    }
+  }
+}

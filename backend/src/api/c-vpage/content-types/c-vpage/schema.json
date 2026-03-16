@@ -1,0 +1,34 @@
+{
+  "kind": "singleType",
+  "collectionName": "c_vpages",
+  "info": {
+    "singularName": "c-vpage",
+    "pluralName": "c-vpages",
+    "displayName": "CVpage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "cv_file": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "cv_button_label": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.env
+node_modules/
+
+# n8n — données persistantes (workflows sauvegardés, credentials, historique)
+n8n/data/
+
+# CV PDF (upload via Strapi à la place)
+*.pdf
