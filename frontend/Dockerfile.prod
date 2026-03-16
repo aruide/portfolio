@@ -10,11 +10,12 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-# Installer toutes les deps (dont devDeps : vite, typescript...)
-RUN npm install
+# --production=false force l'install des devDeps (vite, typescript...) peu importe NODE_ENV
+RUN npm install --production=false
 COPY . .
-# Build en mode production (évite l'import des plugins visual-editor qui n'existent pas)
-RUN NODE_ENV=production npm run build
+# NODE_ENV=production via ENV pour que vite.config.js désactive les plugins dev
+ENV NODE_ENV=production
+RUN npm run build
 
 # ── Stage 2 : serve ───────────────────────────────────────────────────────────
 FROM nginx:alpine
