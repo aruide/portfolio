@@ -1,21 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import * as LucideIcons from 'lucide-react';
+import { Link } from 'lucide-react';
+import { resolveIcon } from '@/lib/icon-resolver';
 import { useContacts } from '@/hooks/useContacts';
 
-function resolveIcon(libraryIcon: string | null, icon: string | null) {
-  const candidates = [libraryIcon, icon].filter(Boolean) as string[];
-  for (const name of candidates) {
-    const formatted = name.charAt(0).toUpperCase() + name.slice(1);
-    const Icon = (LucideIcons as Record<string, unknown>)[formatted] as
-      | React.ComponentType<{ className?: string }>
-      | undefined;
-    if (Icon) return Icon;
-  }
-  return (LucideIcons as Record<string, unknown>)['Link'] as React.ComponentType<{
-    className?: string;
-  }>;
-}
+type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
+const FallbackIcon: IconComponent = Link;
 
 const ContactPage = () => {
   const { data, loading, error } = useContacts();
@@ -51,7 +41,7 @@ const ContactPage = () => {
         {!loading && !error && (
           <div className="flex flex-wrap justify-center gap-6 max-w-2xl mx-auto">
             {data.map((contact, i) => {
-              const Icon = resolveIcon(contact.library_icon, contact.icon);
+              const Icon = resolveIcon(contact.library_icon, contact.icon) ?? FallbackIcon;
               return (
                 <motion.a
                   key={contact.id}

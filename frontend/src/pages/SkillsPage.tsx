@@ -1,24 +1,11 @@
 import { motion } from 'framer-motion';
-import { Star, Info } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
+import { Star, Info, Code } from 'lucide-react';
+import { resolveIcon } from '@/lib/icon-resolver';
 import { useCompetences } from '@/hooks/useCompetences';
 import type { CompetenceEntry } from '@/types';
 
-// ─── Résolution d'icône dynamique ─────────────────────────────────────────────
-
-function resolveIcon(libraryIcon: string | null, icon: string | null) {
-  const candidates = [libraryIcon, icon].filter(Boolean) as string[];
-  for (const name of candidates) {
-    const formatted = name.charAt(0).toUpperCase() + name.slice(1);
-    const Icon = (LucideIcons as Record<string, unknown>)[formatted] as
-      | React.ComponentType<{ className?: string }>
-      | undefined;
-    if (Icon) return Icon;
-  }
-  return (LucideIcons as Record<string, unknown>)['Code'] as React.ComponentType<{
-    className?: string;
-  }>;
-}
+type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
+const FallbackIcon: IconComponent = Code;
 
 // ─── Étoiles de niveau ────────────────────────────────────────────────────────
 
@@ -40,7 +27,7 @@ function StarRating({ note }: { note: number }) {
 // ─── Carte compétence ─────────────────────────────────────────────────────────
 
 function CompetenceCard({ item, index }: { item: CompetenceEntry; index: number }) {
-  const Icon = resolveIcon(item.library_icon, item.icon);
+  const Icon = resolveIcon(item.library_icon, item.icon) ?? FallbackIcon;
 
   return (
     <motion.div
