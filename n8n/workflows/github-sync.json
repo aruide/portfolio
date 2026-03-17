@@ -69,6 +69,13 @@
           "parameters": [
             { "name": "Authorization", "value": "=Bearer {{ $env.STRAPI_TOKEN }}" }
           ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
         }
       },
       "id": "check-existing",
@@ -85,7 +92,7 @@
               "id": "exists-check",
               "leftValue": "={{ $json.meta.pagination.total }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": { "type": "number", "operation": "notEquals" }
             }
           ]
         }
@@ -94,6 +101,26 @@
       "name": "Existe déjà ?",
       "type": "n8n-nodes-base.if",
       "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $env.STRAPI_URL + '/api/projets/' + $json.data[0].documentId + '?status=published' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.STRAPI_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"data\": {\n    \"name\": \"{{ $('Split Repos').item.json.name }}\",\n    \"description\": {{ JSON.stringify($('Split Repos').item.json.description) }},\n    \"github_url\": \"{{ $('Split Repos').item.json.html_url }}\",\n    \"topics\": {{ JSON.stringify($('Split Repos').item.json.topics) }},\n    \"creation_date\": \"{{ $('Split Repos').item.json.created_at }}\",\n    \"image_url\": \"https://raw.githubusercontent.com/{{ $('Split Repos').item.json.full_name }}/{{ $('Split Repos').item.json.default_branch }}/preview.png\"\n  }\n}"
+      },
+      "id": "update-project",
+      "name": "Mettre à jour Strapi",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1560, 180]
     },
     {
       "parameters": {
@@ -112,26 +139,6 @@
       },
       "id": "create-project",
       "name": "Créer dans Strapi",
-      "type": "n8n-nodes-base.httpRequest",
-      "position": [1560, 180]
-    },
-    {
-      "parameters": {
-        "method": "PUT",
-        "url": "={{ $env.STRAPI_URL }}/api/projets/{{ $('Cherche dans Strapi').item.json.data[0].documentId }}?status=published",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.STRAPI_TOKEN }}" },
-            { "name": "Content-Type", "value": "application/json" }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": {\n    \"name\": \"{{ $('Split Repos').item.json.name }}\",\n    \"description\": {{ JSON.stringify($('Split Repos').item.json.description) }},\n    \"github_url\": \"{{ $('Split Repos').item.json.html_url }}\",\n    \"topics\": {{ JSON.stringify($('Split Repos').item.json.topics) }},\n    \"creation_date\": \"{{ $('Split Repos').item.json.created_at }}\",\n    \"image_url\": \"https://raw.githubusercontent.com/{{ $('Split Repos').item.json.full_name }}/{{ $('Split Repos').item.json.default_branch }}/preview.png\"\n  }\n}"
-      },
-      "id": "update-project",
-      "name": "Mettre à jour Strapi",
       "type": "n8n-nodes-base.httpRequest",
       "position": [1560, 420]
     }
