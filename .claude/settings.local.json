@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const pkg = require\\(''''./node_modules/react-icons/package.json''''\\); console.log\\(JSON.stringify\\(pkg.exports?.[''''./fa''''], null, 2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''exports'''',{}\\).get\\(''''./fa'''',{}\\), indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\(''''version''''\\)\\)\")"
+    ]
+  }
+}

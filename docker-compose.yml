@@ -42,6 +42,7 @@ services:
       - VITE_POLL=${VITE_POLL}
       - VITE_API_URL=${VITE_API_URL}
       - VITE_API_TOKEN=${VITE_API_TOKEN}
+      - STRAPI_INTERNAL_URL=http://backend:${STRAPI_PORT}
     depends_on:
       - backend
 

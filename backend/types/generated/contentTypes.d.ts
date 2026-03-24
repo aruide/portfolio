@@ -504,6 +504,37 @@ export interface ApiCVpageCVpage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiCertificatCertificat extends Struct.CollectionTypeSchema {
+  collectionName: 'certificats';
+  info: {
+    displayName: 'Certificat';
+    pluralName: 'certificats';
+    singularName: 'certificat';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::certificat.certificat'
+    > &
+      Schema.Attribute.Private;
+    media: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    media_position: Schema.Attribute.Enumeration<['vertical', 'horizontal']>;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCompetenceCompetence extends Struct.CollectionTypeSchema {
   collectionName: 'competences';
   info: {
@@ -1179,6 +1210,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::aboutpage.aboutpage': ApiAboutpageAboutpage;
       'api::c-vpage.c-vpage': ApiCVpageCVpage;
+      'api::certificat.certificat': ApiCertificatCertificat;
       'api::competence.competence': ApiCompetenceCompetence;
       'api::contact.contact': ApiContactContact;
       'api::experience.experience': ApiExperienceExperience;

@@ -137,6 +137,16 @@ export interface ContactEntry {
   url: string;
 }
 
+/** Entrée Certificat dans Strapi */
+export interface CertificatEntry {
+  id: number;
+  documentId: string;
+  name: string;
+  date: string | null;
+  media: StrapiMedia | null;
+  media_position: 'vertical' | 'horizontal' | null;
+}
+
 /** Entrée CVpage dans Strapi */
 export interface CVpageEntry {
   id: number;

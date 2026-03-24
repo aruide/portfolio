@@ -9,6 +9,7 @@ import SkillsPage from '@/pages/SkillsPage';
 import ExperiencePage from '@/pages/ExperiencePage';
 import ContactPage from '@/pages/ContactPage';
 import ExperienceDetailPage from '@/pages/ExperienceDetailPage';
+import CertificationsPage from '@/pages/CertificationsPage';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/experience" element={<ExperiencePage />} />
             <Route path="/experience/:documentId" element={<ExperienceDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/certifications" element={<CertificationsPage />} />
           </Routes>
         </main>
         <Footer />

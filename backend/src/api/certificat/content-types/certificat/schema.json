@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "certificats",
+  "info": {
+    "singularName": "certificat",
+    "pluralName": "certificats",
+    "displayName": "Certificat"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "media_position": {
+      "type": "enumeration",
+      "enum": [
+        "vertical",
+        "horizontal"
+      ]
+    }
+  }
+}

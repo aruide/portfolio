@@ -199,10 +199,13 @@ export default defineConfig({
 	],
 	server: {
 		cors: true,
-		headers: {
-			'Cross-Origin-Embedder-Policy': 'credentialless',
-		},
 		allowedHosts: true,
+		proxy: {
+			'/uploads': {
+				target: process.env.STRAPI_INTERNAL_URL || 'http://localhost:1337',
+				changeOrigin: true,
+			},
+		},
 	},
 	resolve: {
 		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
