@@ -697,6 +697,36 @@ export interface ApiProjetProjet extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRechercheEmploiRechercheEmploi
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'recherche_emplois';
+  info: {
+    displayName: 'RechercheEmploi';
+    pluralName: 'recherche-emplois';
+    singularName: 'recherche-emploi';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    intituler: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::recherche-emploi.recherche-emploi'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ville: Schema.Attribute.Text;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1216,6 +1246,7 @@ declare module '@strapi/strapi' {
       'api::experience.experience': ApiExperienceExperience;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::projet.projet': ApiProjetProjet;
+      'api::recherche-emploi.recherche-emploi': ApiRechercheEmploiRechercheEmploi;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

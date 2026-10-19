@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recherche_emplois",
+  "info": {
+    "singularName": "recherche-emploi",
+    "pluralName": "recherche-emplois",
+    "displayName": "RechercheEmploi"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "intituler": {
+      "type": "text"
+    },
+    "ville": {
+      "type": "text"
+    }
+  }
+}
