@@ -1,0 +1,19 @@
+services:
+
+  # ─── Frontend nginx (build statique) ───────────────────────────────────────
+  # Le backend Strapi et n8n sont gérés dans un autre projet.
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        # Vide (défaut) = le navigateur passe par le proxy nginx du frontend
+        VITE_API_URL: ${VITE_API_URL:-}
+    restart: unless-stopped
+    environment:
+      - NGINX_PORT=${FRONTEND_PORT:-80}
+      - NGINX_SERVER_NAME=${FRONTEND_SERVER_NAME:-_}
+      # Adresse du Strapi (autre projet) : doit être joignable depuis ce conteneur
+      - BACKEND_HOST=${BACKEND_HOST:?BACKEND_HOST est requis}
+      - BACKEND_PORT=${BACKEND_PORT:-1337}
+      - BACKEND_API_TOKEN=${BACKEND_API_TOKEN}
